@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="3" guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="tests">
+  <test name="FirefoxTest">
+    <classes>
+      <class name="com.cucumber.VitamixProject.mozilaRunnerTest"/>
+    </classes>
+  </test> <!-- FirefoxTest -->
+  <test name="IETest">
+    <classes>
+      <class name="com.cucumber.VitamixProject.ieRunnerTest"/>
+    </classes>
+  </test> <!-- IETest -->
+  <test name="chromeTest">
+    <classes>
+      <class name="com.cucumber.VitamixProject.chromeRunnerTest"/>
+    </classes>
+  </test> <!-- chromeTest -->
+  <test name="IETest(failed)" parallel="tests">
+    <classes>
+      <class name="com.cucumber.VitamixProject.mozilaRunnerTest">
+        <methods>
+          <include name="setUpClass"/>
+          <include name="tearDownClass"/>
+        </methods>
+      </class> <!-- com.cucumber.VitamixProject.mozilaRunnerTest -->
+      <class name="com.cucumber.VitamixProject.chromeRunnerTest">
+        <methods>
+          <include name="setUpClass"/>
+          <include name="tearDownClass"/>
+        </methods>
+      </class> <!-- com.cucumber.VitamixProject.chromeRunnerTest -->
+      <class name="com.cucumber.VitamixProject.ieRunnerTest">
+        <methods>
+          <include name="setUpClass"/>
+          <include name="feature" invocation-numbers="0"/>
+          <include name="tearDownClass"/>
+        </methods>
+      </class> <!-- com.cucumber.VitamixProject.ieRunnerTest -->
+    </classes>
+  </test> <!-- IETest(failed) -->
+</suite> <!-- Failed suite [Suite] -->
