@@ -2,7 +2,6 @@ package com.cucumber.VitamixProject;
 
 
 
-import java.io.EOFException;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -12,7 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -30,24 +28,27 @@ import cucumber.api.java.en.When;
 public class Test_Steps {
 	public WebDriver driver;
 	public int random;
-	int i;
 	
 	
 	@Given("^i launch mozila firefox browser$")
 	public void i_launch_mozila_firefox_browser() throws Throwable  {
 		
 	    // Write code here that turns the phrase above into concrete actions
-		System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
+		
+		System.setProperty("webdriver.gecko.driver", "\\geckodriver.exe");
+		//System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
 		
 		driver = new FirefoxDriver();
-		//Thread.sleep(10000);
+		
 	}
 	
 	@Given("^i launch google chrome browser$")
 	public void i_launch_google_chrome_browser() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		System.setProperty("webdriver.chrome.driver", "\\chromedriver.exe");
+		//System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
 		
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
@@ -58,18 +59,19 @@ public class Test_Steps {
 	public void i_launch_IE_browser() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
-		System.setProperty("webdriver.ie.driver", "C:\\IEDriverServer.exe");
+		
+		System.setProperty("webdriver.ie.driver", "\\IEDriverServer.exe");
+		//System.setProperty("webdriver.ie.driver", "C:\\IEDriverServer.exe");
 
 		driver = new InternetExplorerDriver();
-		//Thread.sleep(10000);
-		
+			
 	}
 	    
     @Given("^i am on the homepage$")
 	public void i_am_on_the_homepage() throws Throwable {
     	
 	    // Write code here that turns the phrase above into concrete actions
-    	//Thread.sleep(5000);
+    	
     	driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
     	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.manage().deleteAllCookies();
@@ -81,12 +83,17 @@ public class Test_Steps {
 	public void i_click_on_allow_all_cookies_link() throws Throwable {
 		
 		// Write code here that turns the phrase above into concrete actions
+		
+		try {
 		WebDriverWait wait=new WebDriverWait(driver, 240);
-		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a#CybotCookiebotDialogBodyButtonAccept"))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a#CybotCookiebotDialogBodyButtonAccept"))).click();
+		
+		}catch(Exception e) {
+			System.out.println("Dialogue box is not displayed");		
+		}
 		
 		//WebDriverWait wait=new WebDriverWait(driver, 240);
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a#CybotCookiebotDialogBodyButtonAccept"))).click();
-		//Thread.sleep(5000);
+		//wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a#CybotCookiebotDialogBodyButtonAccept"))).click();
 		
 		try {
 			File scrFile1 = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
@@ -94,31 +101,29 @@ public class Test_Steps {
 			   System.out.println("Vitamix Homepage Screenshot Saved in Screenshot Folder");
 			   
 		}catch(Exception e) {
-			
+			System.out.println("End of execution");		
 		}
-		// Thread.sleep(5000);
-	   	
+		
 	}
 
 	@Given("^i click my Account link$")
 	public void i_click_my_Account_link() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
-		WebDriverWait wait=new WebDriverWait(driver, 240);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a#headerMyAccountLink"))).click();
 		
 		//WebDriverWait wait=new WebDriverWait(driver, 240);
-		//wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a#headerMyAccountLink"))).click();
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a#headerMyAccountLink"))).click();
+		
+		WebDriverWait wait=new WebDriverWait(driver, 240);
+		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a#headerMyAccountLink"))).click();
 	}
 
 	@Given("^i click create an account link$")
 	public void i_click_create_an_account_link() throws Throwable {
 		// Write code here that turns the phrase above into concrete actions
+		
 		WebDriverWait wait=new WebDriverWait(driver, 240);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a#createAnAccountLink[class='link-special']"))).click();
-		//Thread.sleep(5000);
-		for (i=0; i<=10;++i);
-		System.out.println(i);
 		
 	}
 
@@ -126,6 +131,7 @@ public class Test_Steps {
 	public void i_fill_the_form() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		driver.findElement(By.id("firstName")).sendKeys("Moshood");
 		driver.findElement(By.id("lastName")).sendKeys("Wale");
 		random = 1000000 + (int)(Math.random() * ((1000 - 1) + 1));
@@ -148,6 +154,7 @@ public class Test_Steps {
 	public void i_click_the_create_account_button() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		driver.findElement(By.cssSelector("input#registerButton")).click();
 		
 	}
@@ -158,13 +165,8 @@ public class Test_Steps {
 		WebDriverWait wait=new WebDriverWait(driver, 240);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a#header-signout")));
 		
-		//Thread.sleep(5000);
-	   
 		Assert.assertEquals("Sign Out", driver.findElement(By.cssSelector("a#header-signout")).getText());
 		System.out.println(driver.findElement(By.cssSelector("a#header-signout")).getText());
-		
-		//Thread.sleep(5000);
-   
 		
 		try {
 			File scrFile1 = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
@@ -172,9 +174,9 @@ public class Test_Steps {
 			   System.out.println("vitRegisterTest Saved in Screenshot Folder");
 			   
 		}catch(Exception e) {
-			
+			System.out.println("End of execution");		
 		}
-		//Thread.sleep(5000);
+		
 	}
 	
 
@@ -182,6 +184,7 @@ public class Test_Steps {
 	public void i_log_out() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		WebDriverWait wait=new WebDriverWait(driver, 240);
 		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a#header-signout")));
 		driver.findElement(By.cssSelector("a#header-signout")).click();
@@ -192,11 +195,10 @@ public class Test_Steps {
 	public void i_click_the_account_information_link() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		WebDriverWait wait=new WebDriverWait(driver, 240);
 		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a#account_info_nav")));
 		driver.findElement(By.cssSelector("a#account_info_nav")).click();
-		
-		//driver.findElement(By.cssSelector("a#account_info_nav")).click();
 		
 	}
 	
@@ -204,6 +206,7 @@ public class Test_Steps {
 	public void i_click_on_Delete_My_Online_Account_link() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 	   driver.findElement(By.cssSelector("a#deleteAccountLink")).click();
 	}
 	
@@ -211,6 +214,7 @@ public class Test_Steps {
 	public void i_type_DELETE() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 	   WebDriverWait wait=new WebDriverWait(driver, 240);
 	   wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#text-delete"))).sendKeys("DELETE");
 	   
@@ -220,24 +224,24 @@ public class Test_Steps {
 	public void i_click_the_delete_button() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 	   driver.findElement(By.cssSelector("input#disable")).click();
 	}
 
 	@Then("^my account should be deleted$")
 	public void my_account_should_be_deleted() throws Throwable {
 		
-		//Thread.sleep(5000);
+		// Write code here that turns the phrase above into concrete actions
 		
-	    // Write code here that turns the phrase above into concrete actions
-		Assert.assertEquals("Learn More", driver.findElement(By.cssSelector("#category-gb-for-home > div > div:nth-child(1) > div > a > div > div > div.btn")).getText());
-		System.out.println(driver.findElement(By.cssSelector("#category-gb-for-home > div > div:nth-child(1) > div > a > div > div > div.btn")).getText());
-		//Thread.sleep(5000);
+		Assert.assertEquals("My Account", driver.findElement(By.cssSelector("a#headerMyAccountLink")).getText());
+		System.out.println(driver.findElement(By.cssSelector("a#headerMyAccountLink")).getText());
 	}
 
 	@Then("^i click change password$")
 	public void i_click_change_password() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		WebDriverWait wait=new WebDriverWait(driver, 240);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#changePassword"))).click();
 	   
@@ -247,6 +251,7 @@ public class Test_Steps {
 	public void i_enter_my_current_password() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		WebDriverWait wait=new WebDriverWait(driver, 240);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#oldpassword[name='text-current-password']"))).sendKeys("London_123");
 		
@@ -256,6 +261,7 @@ public class Test_Steps {
 	public void i_enter_my_new_password() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		driver.findElement(By.cssSelector("input#password[name='text-new-password']")).sendKeys("London_1234");
 		
 	}
@@ -264,6 +270,7 @@ public class Test_Steps {
 	public void i_repeat_my_new_password() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		driver.findElement(By.cssSelector("input#confirmpassword[name='text-repeat-password']")).sendKeys("London_1234");
 		
 	}
@@ -272,6 +279,7 @@ public class Test_Steps {
 	public void i_click_the_change_password_button() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		WebDriverWait wait=new WebDriverWait(driver, 240);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#changePasswordBtn")));
 		driver.findElement(By.cssSelector("input#changePasswordBtn")).click();
@@ -282,6 +290,7 @@ public class Test_Steps {
 	public void i_click_on_save_changes_button() throws Throwable {
 		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		driver.findElement(By.cssSelector("input#update")).click();
 		
 	}
@@ -289,15 +298,12 @@ public class Test_Steps {
 	@Then("^my password should be changed$")
 	public void my_password_should_be_changed() throws Throwable {
 		
-		//Thread.sleep(5000);
-		
 	    // Write code here that turns the phrase above into concrete actions
+		
 		String ExpectedMessage = "Sign Out";
 		String ActualMessage = driver.findElement(By.cssSelector("a#header-signout")).getText();
 		Assert.assertEquals(ExpectedMessage, ActualMessage);
 		System.out.println(ActualMessage);
-		
-		//Thread.sleep(5000);
 		
 		try {
 			File scrFile1 = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
@@ -308,16 +314,13 @@ public class Test_Steps {
 			System.out.println("End of execution");		
 		}
 		
-		//System.out.println("End of execution");
-		//Thread.sleep(5000);
-		
 	}		
 
 
 	@After
 	public void TearDown() {
-    //driver.close();
-	driver.quit();
+    driver.close();
+	//driver.quit();
 	}
 
 	
